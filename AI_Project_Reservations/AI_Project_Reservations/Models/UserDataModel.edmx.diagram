@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1e5ff6fc47f44f4e8c5257868b5c64d8" Name="Diagram1">
+        <EntityTypeShape EntityType="ai_databaseModel.Building" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ai_databaseModel.Reservation" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ai_databaseModel.Room" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ai_databaseModel.Subject" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="ai_databaseModel.User" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <AssociationConnector Association="ai_databaseModel.FK1" ManuallyRouted="false" />
+        <AssociationConnector Association="ai_databaseModel.FK2" ManuallyRouted="false" />
+        <AssociationConnector Association="ai_databaseModel.FK3" ManuallyRouted="false" />
+        <AssociationConnector Association="ai_databaseModel.FK4" ManuallyRouted="false" />
+        <AssociationConnector Association="ai_databaseModel.UserSubject" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

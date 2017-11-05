@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ai_databaseModelStoreContainer" CdmEntityContainer="ai_databaseEntities2">
+    <EntitySetMapping Name="Building">
+      <EntityTypeMapping TypeName="ai_databaseModel.Building">
+        <MappingFragment StoreEntitySet="Building">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservation">
+      <EntityTypeMapping TypeName="ai_databaseModel.Reservation">
+        <MappingFragment StoreEntitySet="Reservation">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="roomId" ColumnName="roomId" />
+          <ScalarProperty Name="dateFrom" ColumnName="dateFrom" />
+          <ScalarProperty Name="dateTo" ColumnName="dateTo" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="subjectId" ColumnName="subjectId" />
+          <ScalarProperty Name="teacherId" ColumnName="teacherId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Room">
+      <EntityTypeMapping TypeName="ai_databaseModel.Room">
+        <MappingFragment StoreEntitySet="Room">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="BuildingId" ColumnName="BuildingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subject">
+      <EntityTypeMapping TypeName="ai_databaseModel.Subject">
+        <MappingFragment StoreEntitySet="Subject">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="ai_databaseModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="isTeacher" ColumnName="isTeacher" />
+          <ScalarProperty Name="isEmailVerified" ColumnName="isEmailVerified" />
+          <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UserSubject" TypeName="ai_databaseModel.UserSubject" StoreEntitySet="UserSubject">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="userId" />
+      </EndProperty>
+      <EndProperty Name="Subject">
+        <ScalarProperty Name="Id" ColumnName="subjectId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

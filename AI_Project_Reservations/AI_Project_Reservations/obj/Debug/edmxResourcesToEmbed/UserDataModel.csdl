@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ai_databaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Building">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Room" Relationship="Self.FK1" FromRole="Building" ToRole="Room" />
+  </EntityType>
+  <EntityType Name="Reservation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="roomId" Type="Int32" Nullable="false" />
+    <Property Name="dateFrom" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="dateTo" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="subjectId" Type="Int32" Nullable="false" />
+    <Property Name="teacherId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Room" Relationship="Self.FK2" FromRole="Reservation" ToRole="Room" />
+    <NavigationProperty Name="Subject" Relationship="Self.FK3" FromRole="Reservation" ToRole="Subject" />
+    <NavigationProperty Name="User" Relationship="Self.FK4" FromRole="Reservation" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Capacity" Type="Int32" Nullable="false" />
+    <Property Name="BuildingId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Building" Relationship="Self.FK1" FromRole="Room" ToRole="Building" />
+    <NavigationProperty Name="Reservation" Relationship="Self.FK2" FromRole="Room" ToRole="Reservation" />
+  </EntityType>
+  <EntityType Name="Subject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Reservation" Relationship="Self.FK3" FromRole="Subject" ToRole="Reservation" />
+    <NavigationProperty Name="User" Relationship="Self.UserSubject" FromRole="Subject" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="isTeacher" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Reservation" Relationship="Self.FK4" FromRole="User" ToRole="Reservation" />
+    <NavigationProperty Name="Subject" Relationship="Self.UserSubject" FromRole="User" ToRole="Subject" />
+  </EntityType>
+  <Association Name="FK1">
+    <End Role="Building" Type="Self.Building" Multiplicity="1" />
+    <End Role="Room" Type="Self.Room" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Building">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Room">
+        <PropertyRef Name="BuildingId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK2">
+    <End Role="Room" Type="Self.Room" Multiplicity="1" />
+    <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="roomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK3">
+    <End Role="Subject" Type="Self.Subject" Multiplicity="1" />
+    <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subject">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="subjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK4">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="teacherId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserSubject">
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <End Role="Subject" Type="Self.Subject" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="ai_databaseEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Building" EntityType="Self.Building" />
+    <EntitySet Name="Reservation" EntityType="Self.Reservation" />
+    <EntitySet Name="Room" EntityType="Self.Room" />
+    <EntitySet Name="Subject" EntityType="Self.Subject" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK1" Association="Self.FK1">
+      <End Role="Building" EntitySet="Building" />
+      <End Role="Room" EntitySet="Room" />
+    </AssociationSet>
+    <AssociationSet Name="FK2" Association="Self.FK2">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
+    <AssociationSet Name="FK3" Association="Self.FK3">
+      <End Role="Subject" EntitySet="Subject" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
+    <AssociationSet Name="FK4" Association="Self.FK4">
+      <End Role="User" EntitySet="User" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
+    <AssociationSet Name="UserSubject" Association="Self.UserSubject">
+      <End Role="User" EntitySet="User" />
+      <End Role="Subject" EntitySet="Subject" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
