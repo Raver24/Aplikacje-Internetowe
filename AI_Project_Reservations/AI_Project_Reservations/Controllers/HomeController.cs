@@ -9,7 +9,15 @@ namespace AI_Project_Reservations.Controllers
     public class HomeController : Controller
     {
         [Authorize]
-        public ActionResult Index()
+        [HttpGet]
+        public ActionResult IndexStudent()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult IndexTeacher()
         {
             return View();
         }

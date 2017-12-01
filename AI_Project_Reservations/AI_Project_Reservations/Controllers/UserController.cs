@@ -167,7 +167,15 @@ namespace AI_Project_Reservations.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Home");
+                            if (v.isTeacher)
+                            {
+                                return RedirectToAction("IndexTeacher", "Home");
+                            }
+                            else
+                            {
+                                return RedirectToAction("IndexStudent", "Home");
+                            }
+                            
                         }
                     }
                     else
