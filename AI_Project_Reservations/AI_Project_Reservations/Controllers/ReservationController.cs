@@ -37,15 +37,6 @@ namespace AI_Project_Reservations.Controllers
             res.roomId = model.roomId;
             res.subjectId = model.subjectId;
             res.teacherId = (int)TempData["loggedOnUserId"];
-            if (!ModelState.IsValid)
-            {
-                status = false;
-                message = "Wrong data inserted!";
-                TempData["resCreationMessage"] = message;
-                TempData["resCreationStatus"] = status;
-                return RedirectToAction("IndexTeacher", "Home");
-
-            }
             if (res.dateFrom.CompareTo(res.dateTo) > 0)
             {
                 status = false;
