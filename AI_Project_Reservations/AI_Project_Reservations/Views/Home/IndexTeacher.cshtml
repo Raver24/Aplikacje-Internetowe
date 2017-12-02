@@ -5,6 +5,22 @@
 <h2>Class Reservations</h2>
 Welcome to Class Reservation Site!
 
+@if (TempData["resCreationStatus"] != null)
+{
+    if ((bool)TempData["resCreationStatus"])
+    {
+        <div class="alert alert-success">
+            <strong>Success!</strong> Your reservation has been created.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <strong>Error!</strong> @TempData["resCreationMessage"].ToString()
+        </div>
+    }
+}
+
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
         <input type="submit" value="Add Reservation" class="btn btn-default" onclick="location.href='@Url.Action("AddReservation", "Reservation")';return false;">

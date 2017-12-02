@@ -149,7 +149,7 @@ namespace AI_Project_Reservations.Controllers
                         ViewBag.Message = "Please verify your email first";
                         return View();
                     }
-
+                    TempData["loggedOnUserId"] = v.Id;
                     if (string.Compare(Crypto.Hash(model.password), v.password) == 0)
                     {
                         int timeout = model.rememberMe ? 525600 : 20;
@@ -187,6 +187,7 @@ namespace AI_Project_Reservations.Controllers
                 {
                     message = "Invalid credential provided";
                 }
+                
             }
             ViewBag.Message = message;
             return View();
