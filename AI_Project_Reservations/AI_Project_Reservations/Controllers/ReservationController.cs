@@ -29,7 +29,10 @@ namespace AI_Project_Reservations.Controllers
         public ActionResult AddReservation(Reservation model)
         {
             string message = "";
-            bool status;
+            bool status = false; ;
+
+            #region Create new object of reservation and assign properties
+
             Reservation res = new Reservation();
             res.dateFrom = model.reservationDate.Add(model.startTime.TimeOfDay);
             res.dateTo = model.reservationDate.Add(model.endTime.TimeOfDay);
@@ -37,34 +40,75 @@ namespace AI_Project_Reservations.Controllers
             res.roomId = model.roomId;
             res.subjectId = model.subjectId;
             res.teacherId = (int)TempData["loggedOnUserId"];
+
+            #endregion
+
+            #region Check if Room and Subject were selected
+
+            if (model.roomId == 0 || model.subjectId == 0)
+            {
+                message = "Please provide correct room and subject!";
+                TempData["resCreationMessage"] = message;
+                TempData["resCreationStatus"] = status;
+                return RedirectToAction("IndexTeacher", "Home");
+            }
+
+            #endregion
+
+            #region Check if selected date is future
+
+            if (res.dateFrom.CompareTo(DateTime.Now) <= 0)
+            {
+                message = "You must select future date!";
+                TempData["resCreationMessage"] = message;
+                TempData["resCreationStatus"] = status;
+                return RedirectToAction("IndexTeacher", "Home");
+            }
+
+            #endregion
+
+            #region Check if start hours are before end hours
+
             if (res.dateFrom.CompareTo(res.dateTo) > 0)
             {
-                status = false;
                 message = "Start time must be before end time!";
                 TempData["resCreationMessage"] = message;
                 TempData["resCreationStatus"] = status;
                 return RedirectToAction("IndexTeacher", "Home");
 
             }
+
+            #endregion
+
+            #region Check if room is free at selected time
+
             if (!isRoomFree(res))
             {
-                status = false;
                 message = "Selected room is reserved at this time!";
                 TempData["resCreationMessage"] = message;
                 TempData["resCreationStatus"] = status;
                 return RedirectToAction("IndexTeacher", "Home");
 
             }
+
+            #endregion
+
+            #region Check if user(teacher) does not have any other classes at this time
+
             if (!isTeacherFree(res))
             {
-                status = false;
                 message = "You have classes at this time!";
                 TempData["resCreationMessage"] = message;
                 TempData["resCreationStatus"] = status;
                 return RedirectToAction("IndexTeacher", "Home");
 
             }
-            
+
+            #endregion
+
+
+            #region Add reservation to db
+
             using (ai_databaseEntities de = new ai_databaseEntities())
             {
                 res.Room = de.Room.Where(x => x.Id.Equals(res.roomId)).FirstOrDefault();
@@ -80,8 +124,11 @@ namespace AI_Project_Reservations.Controllers
                     status = false;
                 }
             }
+
+            #endregion
+
             status = true;
-            message = "Reservation Created";
+            message = "Reservation succesfully created";
             TempData["resCreationMessage"] = message;
             TempData["resCreationStatus"] = status;
             return RedirectToAction("IndexTeacher", "Home");
@@ -95,19 +142,24 @@ namespace AI_Project_Reservations.Controllers
                 var v = de.Reservation.Where(a => a.teacherId.Equals(reservation.teacherId)).ToList();
                 foreach (Reservation reserv in v)
                 {
+                    bool result = false;
                     int SScompare = reservation.dateFrom.CompareTo(reserv.dateFrom);
                     int EScompare = reservation.dateTo.CompareTo(reserv.dateFrom);
                     int SEcompare = reservation.dateFrom.CompareTo(reserv.dateTo);
                     if (SScompare < 0 && EScompare <= 0)
                     {
-                        return true;
+                        result = true;
                     }
                     if (SEcompare >= 0)
                     {
-                        return true;
+                        result = true;
+                    }
+                    if (!result)
+                    {
+                        return result;
                     }
                 }
-                return false;
+                return true;
             }
         }
 
@@ -117,21 +169,27 @@ namespace AI_Project_Reservations.Controllers
             using (ai_databaseEntities de = new ai_databaseEntities())
             {
                 var v = de.Reservation.Where(a => a.roomId.Equals(reservation.roomId)).ToList();
+                
                 foreach (Reservation reserv in v)
                 {
+                    bool result = false;
                     int SScompare = reservation.dateFrom.CompareTo(reserv.dateFrom);
                     int EScompare = reservation.dateTo.CompareTo(reserv.dateFrom);
                     int SEcompare = reservation.dateFrom.CompareTo(reserv.dateTo);
                     if (SScompare < 0 && EScompare <= 0)
                     {
-                        return true;
+                        result = true;
                     }
                     if (SEcompare >= 0)
                     {
-                        return true;
+                        result = true;
+                    }
+                    if (!result)
+                    {
+                        return result;
                     }
                 }
-                return false;
+                return true;
             }
         }
     }
