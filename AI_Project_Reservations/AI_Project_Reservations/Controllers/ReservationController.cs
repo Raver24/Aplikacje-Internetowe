@@ -11,6 +11,7 @@ namespace AI_Project_Reservations.Controllers
 {
     public class ReservationController : Controller
     {
+        
         [HttpGet]
         public ActionResult AddReservation()
         {
@@ -22,6 +23,19 @@ namespace AI_Project_Reservations.Controllers
             var getSubjects = entity.Subject.ToList();
             SelectList allSubjects = new SelectList(getSubjects, "Id", "Name");
             ViewBag.getSubjects = allSubjects;
+            List<Reservation> reservations;
+            using (ai_databaseEntities de = new ai_databaseEntities())
+            {
+                reservations = de.Reservation.ToList();
+                if (de.User.Where(x => x.Id.Equals(LoggedOnUser.loggedOnUserID)).FirstOrDefault().isTeacher)
+                {
+                    ViewBag.type = "teacher";
+                }
+                else
+                {
+                    ViewBag.type = "student";
+                }
+            }
             return View();
         }
 
@@ -36,10 +50,13 @@ namespace AI_Project_Reservations.Controllers
             Reservation res = new Reservation();
             res.dateFrom = model.reservationDate.Add(model.startTime.TimeOfDay);
             res.dateTo = model.reservationDate.Add(model.endTime.TimeOfDay);
-            res.description = model.description;
+            if (model.description == null)
+            {
+                res.description = "No description";
+            }
             res.roomId = model.roomId;
             res.subjectId = model.subjectId;
-            res.teacherId = (int)TempData["loggedOnUserId"];
+            res.teacherId = LoggedOnUser.loggedOnUserID;
 
             #endregion
 
@@ -134,6 +151,48 @@ namespace AI_Project_Reservations.Controllers
             return RedirectToAction("IndexTeacher", "Home");
         }
 
+
+        [HttpGet]
+        public ActionResult ViewReservations()
+        {
+            List<Reservation> reservations;
+            using (ai_databaseEntities de = new ai_databaseEntities())
+            {
+                reservations = de.Reservation.ToList();
+                if (de.User.Where(x => x.Id.Equals(LoggedOnUser.loggedOnUserID)).FirstOrDefault().isTeacher)
+                {
+                    ViewBag.type = "teacher";
+                    ViewBag.teacherId = LoggedOnUser.loggedOnUserID;
+                }
+                else
+                {
+                    ViewBag.type = "student";
+                }
+            }
+            
+            return View(reservations);
+        }
+
+        [HttpGet]
+        public ActionResult Delete()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Reservation model)
+        {
+            using (ai_databaseEntities de = new ai_databaseEntities())
+            {
+                Reservation delRes = de.Reservation.Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
+                if (delRes != null)
+                {
+                    de.Reservation.Remove(delRes);
+                    de.SaveChanges();
+                }
+            }
+            return RedirectToAction("ViewReservations", "Reservation");
+        }
         [NonAction]
         public bool isTeacherFree(Reservation reservation)
         {

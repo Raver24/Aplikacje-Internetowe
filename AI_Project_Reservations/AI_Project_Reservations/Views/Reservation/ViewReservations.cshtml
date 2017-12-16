@@ -1,0 +1,78 @@
+﻿@model IEnumerable<AI_Project_Reservations.Models.Reservation>
+
+@{
+    ViewBag.Title = "View Reservations";
+}
+
+<h2>ViewReservations</h2>
+
+@if (ViewBag.type == "teacher")
+{
+    <p>
+        @Html.ActionLink("Create New", "AddReservation")
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.roomId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dateTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.subjectId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.roomId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dateTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.subjectId)
+        </td>
+        @if (ViewBag.type == "teacher")
+        {
+            if (item.teacherId == ViewBag.teacherId)
+            {
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            }
+
+        }
+    </tr>
+}
+    @if (ViewBag.type == "teacher")
+    {
+        <p>
+            @Html.ActionLink("Go back", "IndexTeacher", "Home")
+        </p>
+    }
+    else if (ViewBag.type == "student")
+    {
+        <p>
+            @Html.ActionLink("Go back", "IndexStudent", "Home")
+        </p>
+    }
+
+</table>

@@ -5,6 +5,11 @@
 <h2>Class Reservations</h2>
 Welcome to Class Reservation Site!
 
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="View Reservations" class="btn btn-default" onclick="location.href='@Url.Action("ViewReservations", "Reservation")';return false;">
+    </div>
+</div>
 
 @if (Request.IsAuthenticated)
 {

@@ -37,7 +37,7 @@ namespace AI_Project_Reservations.Models
         [DataType(DataType.Time)]
         public DateTime endTime { get; set; }
 
-        [Display(Name = "Optional description")]
+        [Display(Name = "Description")]
         public string description { get; set; }
 
         [Display(Name = "Subject")]
