@@ -15,6 +15,7 @@ namespace AI_Project_Reservations.Models
         public DateTime endTime { get; set; }
         public string roomName { get; set; }
         public string subjectName { get; set; }
+        public string address { get; set; }
 
         public void SetRoomName()
         {
@@ -38,6 +39,19 @@ namespace AI_Project_Reservations.Models
             if (name != null)
             {
                 this.subjectName = name;
+            }
+        }
+        public void SetAddress()
+        {
+            string name = null;
+            using (ai_databaseEntities de = new ai_databaseEntities())
+            {
+                int buildingId = de.Room.Where(x => x.Id.Equals(this.roomId)).FirstOrDefault().BuildingId;
+                name = de.Building.Where(x => x.Id.Equals(buildingId)).FirstOrDefault().Address;
+            }
+            if (name != null)
+            {
+                this.address = name;
             }
         }
     }
@@ -76,5 +90,8 @@ namespace AI_Project_Reservations.Models
 
         [Display(Name = "Subject")]
         public string subjectName { get; set; }
+
+        [Display(Name = "Address")]
+        public string address { get; set; }
     }
 }

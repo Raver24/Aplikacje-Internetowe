@@ -163,6 +163,7 @@ namespace AI_Project_Reservations.Controllers
                 {
                     item.SetRoomName();
                     item.SetSubjectName();
+                    item.SetAddress();
                 }
                 if (de.User.Where(x => x.Id.Equals(LoggedOnUser.loggedOnUserID)).FirstOrDefault().isTeacher)
                 {
