@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<AI_Project_Reservations.Models.Reservation>
 
 @{
-    ViewBag.Title = "View Reservations";
+    ViewBag.Title = "ViewReservations";
 }
 
-<h2>ViewReservations</h2>
+<h2>View Reservations</h2>
 
 @if (ViewBag.type == "teacher")
 {
@@ -16,19 +16,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.roomId)
+            @Html.DisplayNameFor(model => model.roomName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.dateFrom)
+            @Html.DisplayNameFor(model => model.startTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.dateTo)
+            @Html.DisplayNameFor(model => model.endTime)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.subjectId)
+            @Html.DisplayNameFor(model => model.subjectName)
         </th>
         <th></th>
     </tr>
@@ -36,7 +36,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.roomId)
+            @Html.DisplayFor(modelItem => item.roomName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.dateFrom)
@@ -48,7 +48,7 @@
             @Html.DisplayFor(modelItem => item.description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.subjectId)
+            @Html.DisplayFor(modelItem => item.subjectName)
         </td>
         @if (ViewBag.type == "teacher")
         {

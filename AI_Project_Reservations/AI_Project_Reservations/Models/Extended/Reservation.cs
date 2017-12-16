@@ -13,6 +13,33 @@ namespace AI_Project_Reservations.Models
         public DateTime reservationDate { get; set; }
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
+        public string roomName { get; set; }
+        public string subjectName { get; set; }
+
+        public void SetRoomName()
+        {
+            string name = null;
+            using (ai_databaseEntities de = new ai_databaseEntities())
+            {
+                name = de.Room.Where(x => x.Id.Equals(this.roomId)).FirstOrDefault().Name;
+            }
+            if (name != null)
+            {
+                this.roomName = name;
+            }
+        }
+        public void SetSubjectName()
+        {
+            string name = null;
+            using (ai_databaseEntities de = new ai_databaseEntities())
+            {
+                name = de.Subject.Where(x => x.Id.Equals(this.subjectId)).FirstOrDefault().Name;
+            }
+            if (name != null)
+            {
+                this.subjectName = name;
+            }
+        }
     }
 
     public class ReservationMetaData
@@ -43,5 +70,11 @@ namespace AI_Project_Reservations.Models
         [Display(Name = "Subject")]
         [Required(ErrorMessage = "Subject is required")]
         public Subject Subject { get; set; }
+
+        [Display(Name = "Room")]
+        public string roomName { get; set; }
+
+        [Display(Name = "Subject")]
+        public string subjectName { get; set; }
     }
 }

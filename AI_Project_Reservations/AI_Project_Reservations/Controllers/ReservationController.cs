@@ -159,6 +159,11 @@ namespace AI_Project_Reservations.Controllers
             using (ai_databaseEntities de = new ai_databaseEntities())
             {
                 reservations = de.Reservation.ToList();
+                foreach (Reservation item in reservations)
+                {
+                    item.SetRoomName();
+                    item.SetSubjectName();
+                }
                 if (de.User.Where(x => x.Id.Equals(LoggedOnUser.loggedOnUserID)).FirstOrDefault().isTeacher)
                 {
                     ViewBag.type = "teacher";
