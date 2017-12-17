@@ -1,28 +1,21 @@
 ﻿@model AI_Project_Reservations.Models.Reservation
 
 @{
-    ViewBag.Title = "Create Reservation";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Create Reservation</h2>
-@if (TempData["resCreationStatus"] != null)
-{
-    if (!(bool)TempData["resCreationStatus"])
-    {
-        <div class="alert alert-danger">
-            <strong>Error!</strong> @TempData["resCreationMessage"].ToString()
-        </div>
-    }
+<h2>Edit</h2>
 
-}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <h4>Reservation</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
             @Html.DropDownListFor(model => model.roomId, ViewBag.getRooms as SelectList, "Select Room")
@@ -65,20 +58,17 @@
             </div>
         </div>
 
-
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
-
-    <p>
-        @Html.ActionLink("Go back", "IndexTeacher", "Home")
-    </p>
-
 }
+
+<div>
+    @Html.ActionLink("Back to List", "ViewReservations")
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

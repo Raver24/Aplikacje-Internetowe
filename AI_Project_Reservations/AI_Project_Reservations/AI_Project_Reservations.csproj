@@ -433,6 +433,7 @@
     <Content Include="Views\Reservation\AddReservation.cshtml" />
     <Content Include="Views\Reservation\ViewReservations.cshtml" />
     <Content Include="Views\Reservation\Delete.cshtml" />
+    <Content Include="Views\Reservation\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
