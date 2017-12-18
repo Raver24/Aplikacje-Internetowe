@@ -5,16 +5,6 @@
 }
 
 <h2>Create Reservation</h2>
-@if (TempData["resCreationStatus"] != null)
-{
-    if (!(bool)TempData["resCreationStatus"])
-    {
-        <div class="alert alert-danger">
-            <strong>Error!</strong> @TempData["resCreationMessage"].ToString()
-        </div>
-    }
-
-}
 
 @using (Html.BeginForm())
 {

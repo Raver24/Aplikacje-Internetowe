@@ -6,6 +6,22 @@
 
 <h2>View Reservations</h2>
 
+@if (TempData["resEditStatus"] != null)
+{
+    if ((bool)TempData["resEditStatus"])
+    {
+        <div class="alert alert-success">
+            <strong>Success!</strong> Your reservation has been edited.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <strong>Error!</strong> @TempData["resEditMessage"].ToString()
+        </div>
+    }
+}
+
 @if (ViewBag.type == "teacher")
 {
     <p>

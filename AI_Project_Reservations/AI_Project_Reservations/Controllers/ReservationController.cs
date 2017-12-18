@@ -180,8 +180,9 @@ namespace AI_Project_Reservations.Controllers
                     ViewBag.type = "student";
                 }
             }
+            List<Reservation> sortedRes = reservations.OrderBy(o => o.dateFrom).ToList();
             
-            return View(reservations);
+            return View(sortedRes);
         }
 
         [HttpGet]
@@ -217,7 +218,7 @@ namespace AI_Project_Reservations.Controllers
         public ActionResult Edit(Reservation model)
         {
             string message = "";
-            bool status = false; ;
+            bool status = false;
 
             #region Create new object of reservation and assign properties
 
@@ -238,8 +239,8 @@ namespace AI_Project_Reservations.Controllers
             if (model.roomId == 0 || model.subjectId == 0)
             {
                 message = "Please provide correct room and subject!";
-                TempData["resCreationMessage"] = message;
-                TempData["resCreationStatus"] = status;
+                TempData["resEditMessage"] = message;
+                TempData["resEditStatus"] = status;
                 return RedirectToAction("ViewReservations", "Reservation");
             }
 
@@ -250,8 +251,8 @@ namespace AI_Project_Reservations.Controllers
             if (model.dateFrom.CompareTo(DateTime.Now) <= 0)
             {
                 message = "You must select future date!";
-                TempData["resCreationMessage"] = message;
-                TempData["resCreationStatus"] = status;
+                TempData["resEditMessage"] = message;
+                TempData["resEditStatus"] = status;
                 return RedirectToAction("ViewReservations", "Reservation");
             }
 
@@ -262,9 +263,9 @@ namespace AI_Project_Reservations.Controllers
             if (model.dateFrom.CompareTo(model.dateTo) > 0)
             {
                 message = "Start time must be before end time!";
-                TempData["resCreationMessage"] = message;
-                TempData["resCreationStatus"] = status;
-                RedirectToAction("ViewReservations", "Reservation");
+                TempData["resEditMessage"] = message;
+                TempData["resEditStatus"] = status;
+                return RedirectToAction("ViewReservations", "Reservation");
 
             }
 
@@ -275,8 +276,8 @@ namespace AI_Project_Reservations.Controllers
             if (!isRoomFree(model))
             {
                 message = "Selected room is reserved at this time!";
-                TempData["resCreationMessage"] = message;
-                TempData["resCreationStatus"] = status;
+                TempData["resEditMessage"] = message;
+                TempData["resEditStatus"] = status;
                 return RedirectToAction("ViewReservations", "Reservation");
 
             }
@@ -288,8 +289,8 @@ namespace AI_Project_Reservations.Controllers
             if (!isTeacherFree(model))
             {
                 message = "You have classes at this time!";
-                TempData["resCreationMessage"] = message;
-                TempData["resCreationStatus"] = status;
+                TempData["resEditMessage"] = message;
+                TempData["resEditStatus"] = status;
                 return RedirectToAction("ViewReservations", "Reservation");
 
             }
@@ -312,8 +313,8 @@ namespace AI_Project_Reservations.Controllers
 
             status = true;
             message = "Reservation succesfully edited";
-            TempData["resCreationMessage"] = message;
-            TempData["resCreationStatus"] = status;
+            TempData["resEditMessage"] = message;
+            TempData["resEditStatus"] = status;
 
             return RedirectToAction("ViewReservations", "Reservation");
         }

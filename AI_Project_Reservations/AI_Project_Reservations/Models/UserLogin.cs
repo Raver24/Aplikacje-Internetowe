@@ -12,6 +12,7 @@ namespace AI_Project_Reservations.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Login required")]
         public string login { get; set; }
 
+        [Display(Name = "Password")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password required")]
         [DataType(DataType.Password)]
         public string password { get; set; }
