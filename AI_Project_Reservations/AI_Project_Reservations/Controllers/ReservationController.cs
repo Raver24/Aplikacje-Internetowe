@@ -54,6 +54,10 @@ namespace AI_Project_Reservations.Controllers
             {
                 res.description = "No description";
             }
+            else
+            {
+                res.description = model.description;
+            }
             res.roomId = model.roomId;
             res.subjectId = model.subjectId;
             res.teacherId = LoggedOnUser.loggedOnUserID;
@@ -139,6 +143,7 @@ namespace AI_Project_Reservations.Controllers
                 {
                     message = dbEx.Message;
                     status = false;
+                    return RedirectToAction("IndexTeacher", "Home");
                 }
             }
 
@@ -216,12 +221,11 @@ namespace AI_Project_Reservations.Controllers
 
             #region Create new object of reservation and assign properties
 
-            Reservation res = new Reservation();
             model.dateFrom = model.reservationDate.Add(model.startTime.TimeOfDay);
             model.dateTo = model.reservationDate.Add(model.endTime.TimeOfDay);
             if (model.description == null)
             {
-                res.description = "No description";
+                model.description = "No description";
             }
             model.roomId = model.roomId;
             model.subjectId = model.subjectId;
